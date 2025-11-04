@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="快立登 QuickReg 公司名稱驗證工具 - 快速檢查您想要的公司名稱是否可用">
+    <title>公司名稱驗證 - 快立登 QuickReg</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .name-check-container {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .check-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .check-card h1 {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .check-card p {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        
+        .check-form {
+            margin: 2rem 0;
+        }
+        
+        .check-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .check-input-group input,
+        .check-input-group select {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        .check-input-group input {
+            flex: 1;
+        }
+        
+        .check-input-group select {
+            width: 150px;
+        }
+        
+        .check-input-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(254, 129, 19, 0.1);
+        }
+        
+        .check-button {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary-color), #ff9d3d);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .check-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .check-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result-box {
+            margin-top: 2rem;
+            padding: 2rem;
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .result-box.success {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            display: block;
+        }
+        
+        .result-box.error {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            display: block;
+        }
+        
+        .result-box.warning {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            display: block;
+        }
+        
+        .result-icon {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .result-box.success .result-icon {
+            color: #10b981;
+        }
+        
+        .result-box.error .result-icon {
+            color: #ef4444;
+        }
+        
+        .result-box.warning .result-icon {
+            color: #f59e0b;
+        }
+        
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .result-box.success .result-title {
+            color: #065f46;
+        }
+        
+        .result-box.error .result-title {
+            color: #991b1b;
+        }
+        
+        .result-box.warning .result-title {
+            color: #92400e;
+        }
+        
+        .result-content {
+            text-align: center;
+            line-height: 1.8;
+        }
+        
+        .suggestions {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .suggestions h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .suggestion-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .suggestion-list li {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            background: var(--bg-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .suggestion-list li:hover {
+            background: rgba(254, 129, 19, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .tips-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--bg-light);
+            border-radius: 15px;
+        }
+        
+        .tips-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tips-list li {
+            padding: 0.8rem 0;
+            color: var(--text-light);
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tips-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .tips-list li i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="快立登 Logo" class="logo-icon" style="width: 40px; height: 40px; object-fit: contain;">
+                <span>快立登 QuickReg</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">返回首頁</a></li>
+                <li><a href="about.html" class="nav-link">關於我們</a></li>
+                <li><a href="application.html" class="btn-primary" style="padding: 0.7rem 1.5rem;">立即申請</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Name Check Tool -->
+    <div class="name-check-container">
+        <div class="check-card">
+            <h1><i class="fas fa-search"></i> 公司名稱驗證工具</h1>
+            <p>立即檢查您想要的公司名稱是否可以使用</p>
+            
+            <div class="check-form">
+                <div class="check-input-group">
+                    <input type="text" id="companyNameInput" placeholder="請輸入公司名稱（不含「有限公司」）" maxlength="50">
+                    <select id="citySelect">
+                        <option value="">選擇縣市</option>
+                        <option value="台北市">台北市</option>
+                        <option value="新北市">新北市</option>
+                        <option value="桃園市">桃園市</option>
+                        <option value="台中市">台中市</option>
+                        <option value="台南市">台南市</option>
+                        <option value="高雄市">高雄市</option>
+                        <option value="其他">其他縣市</option>
+                    </select>
+                </div>
+                <button class="check-button" id="checkButton" onclick="checkName()">
+                    <i class="fas fa-search"></i> 立即驗證
+                </button>
+            </div>
+            
+            <div id="resultBox" class="result-box">
+                <div class="result-icon" id="resultIcon"></div>
+                <div class="result-title" id="resultTitle"></div>
+                <div class="result-content" id="resultContent"></div>
+            </div>
+        </div>
+        
+        <!-- Tips Section -->
+        <div class="tips-section">
+            <h3><i class="fas fa-lightbulb"></i> 公司命名小技巧</h3>
+            <ul class="tips-list">
+                <li><i class="fas fa-check-circle"></i> <strong>簡短易記：</strong>盡量選擇2-4個字的名稱，方便客戶記憶</li>
+                <li><i class="fas fa-check-circle"></i> <strong>避免相似：</strong>不要與知名品牌過於相似，避免侵權問題</li>
+                <li><i class="fas fa-check-circle"></i> <strong>有意義性：</strong>名稱最好能反映您的業務內容或理念</li>
+                <li><i class="fas fa-check-circle"></i> <strong>易於發音：</strong>選擇容易發音的字，有助於口碑傳播</li>
+                <li><i class="fas fa-check-circle"></i> <strong>可延伸性：</strong>考慮未來業務擴展，避免過於局限的名稱</li>
+                <li><i class="fas fa-times-circle" style="color: #ef4444;"></i> <strong>禁止使用：</strong>「銀行」、「保險」、「證券」等特許行業專用字</li>
+                <li><i class="fas fa-times-circle" style="color: #ef4444;"></i> <strong>避免使用：</strong>過於通用的字眼如「國際」、「台灣」、「中華」等</li>
+            </ul>
+        </div>
+        
+        <!-- CTA -->
+        <div style="text-align: center; margin-top: 3rem;">
+            <p style="color: var(--text-light); margin-bottom: 1rem;">名稱確認可用後，立即開始申請！</p>
+            <a href="application.html" class="btn-primary" style="display: inline-block; font-size: 1.1rem; padding: 1rem 2.5rem;">
+                <i class="fas fa-rocket"></i> 開始申請公司設立
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>快立登 QuickReg</h4>
+                <p>專為年輕創業族群打造的公司設立服務</p>
+            </div>
+            <div class="footer-section">
+                <h4>聯絡資訊</h4>
+                <p><i class="fas fa-phone"></i> 04-2241-0032</p>
+                <p><i class="fas fa-envelope"></i> service@quickreg.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 快立登 QuickReg. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Buttons -->
+    <div class="contact-float">
+        <a href="tel:042-241-0032" class="float-btn phone" title="撥打電話">
+            <i class="fas fa-phone"></i>
+        </a>
+        <a href="https://lin.ee/4qvGVfj" target="_blank" class="float-btn line" title="LINE諮詢">
+            <i class="fab fa-line"></i>
+        </a>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        function checkName() {
+            const nameInput = document.getElementById('companyNameInput');
+            const citySelect = document.getElementById('citySelect');
+            const resultBox = document.getElementById('resultBox');
+            const resultIcon = document.getElementById('resultIcon');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultContent = document.getElementById('resultContent');
+            const checkButton = document.getElementById('checkButton');
+            
+            const companyName = nameInput.value.trim();
+            const city = citySelect.value;
+            
+            if (!companyName) {
+                alert('請輸入公司名稱');
+                nameInput.focus();
+                return;
+            }
+            
+            if (!city) {
+                alert('請選擇縣市');
+                citySelect.focus();
+                return;
+            }
+            
+            // 顯示載入狀態
+            checkButton.disabled = true;
+            checkButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 驗證中...';
+            resultBox.className = 'result-box';
+            resultBox.style.display = 'none';
+            
+            // 模擬 API 呼叫
+            setTimeout(() => {
+                checkButton.disabled = false;
+                checkButton.innerHTML = '<i class="fas fa-search"></i> 立即驗證';
+                
+                // 檢查黑名單
+                const blacklist = ['測試', 'test', '範例', '假的', '詐騙', '銀行', '保險', '證券'];
+                const hasBlacklistWord = blacklist.some(word => companyName.toLowerCase().includes(word));
+                
+                if (hasBlacklistWord) {
+                    // 包含禁用字詞
+                    resultBox.className = 'result-box error';
+                    resultIcon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                    resultTitle.textContent = '此名稱無法使用';
+                    resultContent.innerHTML = `
+                        <p>「${companyName}」包含禁用字詞或特許行業專用字，無法使用。</p>
+                        <p>請更換其他名稱後重新驗證。</p>
+                    `;
+                } else {
+                    // 隨機模擬結果
+                    const random = Math.random();
+                    
+                    if (random > 0.6) {
+                        // 可用
+                        resultBox.className = 'result-box success';
+                        resultIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                        resultTitle.textContent = '恭喜！此名稱可以使用';
+                        resultContent.innerHTML = `
+                            <p><strong>「${companyName}有限公司」</strong></p>
+                            <p>此名稱在 ${city} 目前可以使用！</p>
+                            <p style="margin-top: 1rem;">建議您盡快完成申請，以免被他人搶先註冊。</p>
+                            <a href="application.html" class="btn-primary" style="display: inline-block; margin-top: 1rem;">
+                                立即申請
+                            </a>
+                        `;
+                    } else if (random > 0.3) {
+                        // 已被使用
+                        const suggestions = [
+                            `${companyName}科技`,
+                            `${companyName}國際`,
+                            `新${companyName}`,
+                            `${companyName}創意`,
+                            `${companyName}數位`
+                        ];
+                        
+                        resultBox.className = 'result-box error';
+                        resultIcon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                        resultTitle.textContent = '此名稱已被使用';
+                        resultContent.innerHTML = `
+                            <p>「${companyName}有限公司」在 ${city} 已有公司註冊。</p>
+                            <div class="suggestions">
+                                <h4>建議您嘗試以下替代名稱：</h4>
+                                <ul class="suggestion-list">
+                                    ${suggestions.map(name => `<li onclick="useSuggestion('${name}')">${name}有限公司</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    } else {
+                        // 相似名稱
+                        resultBox.className = 'result-box warning';
+                        resultIcon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                        resultTitle.textContent = '建議調整名稱';
+                        resultContent.innerHTML = `
+                            <p>「${companyName}有限公司」可以使用，但存在相似名稱。</p>
+                            <p>為避免日後產生混淆或法律爭議，建議您考慮調整名稱。</p>
+                            <p style="margin-top: 1rem;">如仍想使用此名稱，請聯絡我們進行詳細評估。</p>
+                            <div style="margin-top: 1rem;">
+                                <a href="tel:042-241-0032" class="btn-outline" style="display: inline-block; margin-right: 0.5rem;">
+                                    電話諮詢
+                                </a>
+                                <a href="application.html" class="btn-primary" style="display: inline-block;">
+                                    繼續申請
+                                </a>
+                            </div>
+                        `;
+                    }
+                }
+                
+                resultBox.style.display = 'block';
+                resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+            }, 1500);
+        }
+        
+        function useSuggestion(name) {
+            document.getElementById('companyNameInput').value = name;
+            document.getElementById('resultBox').style.display = 'none';
+            showNotification('已填入建議名稱，請再次驗證', 'success');
+        }
+        
+        // Enter 鍵觸發驗證
+        document.getElementById('companyNameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkName();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="快立登 QuickReg 營業項目對照表 - 快速查詢公司行號營業項目代碼">
+    <title>營業項目對照表 - 快立登 QuickReg</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .business-code-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .code-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .code-header h1 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .code-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .search-box {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+        }
+        
+        .search-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .search-input-group input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        .search-input-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(254, 129, 19, 0.1);
+        }
+        
+        .search-button {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), #ff9d3d);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .category-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .category-card p {
+            color: var(--text-light);
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .code-list {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            display: none;
+        }
+        
+        .code-list.active {
+            display: block;
+        }
+        
+        .code-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+            transition: var(--transition);
+        }
+        
+        .code-item:last-child {
+            border-bottom: none;
+        }
+        
+        .code-item:hover {
+            background: rgba(254, 129, 19, 0.05);
+        }
+        
+        .code-number {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+        
+        .code-description {
+            color: var(--text-color);
+            margin-top: 0.5rem;
+        }
+        
+        .external-links {
+            background: var(--bg-light);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .external-links h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .link-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .link-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .link-button:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="快立登 Logo" class="logo-icon" style="width: 40px; height: 40px; object-fit: contain;">
+                <span>快立登 QuickReg</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">返回首頁</a></li>
+                <li><a href="name-check.html" class="nav-link">名稱驗證</a></li>
+                <li><a href="invoice-helper.html" class="nav-link">發票小幫手</a></li>
+                <li><a href="application.html" class="btn-primary" style="padding: 0.7rem 1.5rem;">立即申請</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Business Code Tool -->
+    <div class="business-code-container">
+        <div class="code-header">
+            <h1><i class="fas fa-list-alt"></i> 營業項目對照表</h1>
+            <p>快速查詢公司行號營業項目代碼</p>
+        </div>
+        
+        <!-- Search Box -->
+        <div class="search-box">
+            <div class="search-input-group">
+                <input type="text" id="searchInput" placeholder="輸入關鍵字搜尋營業項目...例如:餐飲、零售、軟體">
+                <button class="search-button" onclick="searchCode()">
+                    <i class="fas fa-search"></i> 搜尋
+                </button>
+            </div>
+            <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">
+                <i class="fas fa-info-circle"></i> 提示:可搜尋營業項目名稱或代碼
+            </p>
+        </div>
+        
+        <!-- Category Grid -->
+        <div class="category-grid">
+            <div class="category-card" onclick="showCategory('retail')">
+                <div class="category-icon">🛒</div>
+                <h3>零售業</h3>
+                <p>網路購物、實體店面、批發零售</p>
+            </div>
+            
+            <div class="category-card" onclick="showCategory('food')">
+                <div class="category-icon">🍽️</div>
+                <h3>餐飲業</h3>
+                <p>餐廳、咖啡廳、飲料店、外燴</p>
+            </div>
+            
+            <div class="category-card" onclick="showCategory('tech')">
+                <div class="category-icon">💻</div>
+                <h3>資訊科技</h3>
+                <p>軟體開發、網頁設計、系統整合</p>
+            </div>
+            
+            <div class="category-card" onclick="showCategory('service')">
+                <div class="category-icon">🤝</div>
+                <h3>服務業</h3>
+                <p>顧問、設計、行銷、教育訓練</p>
+            </div>
+            
+            <div class="category-card" onclick="showCategory('trade')">
+                <div class="category-icon">🌐</div>
+                <h3>貿易業</h3>
+                <p>進出口貿易、代理經銷</p>
+            </div>
+            
+            <div class="category-card" onclick="showCategory('manufacturing')">
+                <div class="category-icon">🏭</div>
+                <h3>製造業</h3>
+                <p>產品製造、加工、組裝</p>
+            </div>
+        </div>
+        
+        <!-- Code List -->
+        <div id="codeList" class="code-list"></div>
+        
+        <!-- External Links -->
+        <div class="external-links">
+            <h3><i class="fas fa-external-link-alt"></i> 更多資源</h3>
+            <div class="link-buttons">
+                <a href="https://gcis.nat.gov.tw/mainNew/" target="_blank" class="link-button">
+                    <i class="fas fa-building"></i> 全國商工行政服務入口網
+                </a>
+                <a href="https://edbkcg-st.kcg.gov.tw/#/teach" target="_blank" class="link-button">
+                    <i class="fas fa-book"></i> 高雄市政府申辦教學
+                </a>
+                <a href="application.html" class="link-button" style="background: var(--primary-color); color: white; border-color: var(--primary-color);">
+                    <i class="fas fa-rocket"></i> 立即申請設立
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>快立登 QuickReg</h4>
+                <p>專為年輕創業族群打造的公司設立服務</p>
+            </div>
+            <div class="footer-section">
+                <h4>聯絡資訊</h4>
+                <p><i class="fas fa-phone"></i> 04-2241-0032</p>
+                <p><i class="fas fa-envelope"></i> service@quickreg.com</p>
+                <p><i class="fab fa-line"></i> <a href="https://lin.ee/4qvGVfj" target="_blank" style="color: inherit;">LINE諮詢</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 快立登 QuickReg. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Buttons -->
+    <div class="contact-float">
+        <a href="tel:042-241-0032" class="float-btn phone" title="撥打電話">
+            <i class="fas fa-phone"></i>
+        </a>
+        <a href="https://lin.ee/4qvGVfj" target="_blank" class="float-btn line" title="LINE諮詢">
+            <i class="fab fa-line"></i>
+        </a>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // 營業項目資料庫
+        const businessCodes = {
+            retail: [
+                { code: 'F401010', name: '國際貿易業', desc: '從事一般商品進出口貿易業務' },
+                { code: 'F399040', name: '無店面零售業', desc: '網路購物、電視購物、郵購等' },
+                { code: 'F203010', name: '食品什貨、飲料零售業', desc: '零售食品、飲料等商品' },
+                { code: 'F204110', name: '布疋、衣著、鞋、帽、傘、服飾品零售業', desc: '零售服飾相關商品' },
+                { code: 'F206020', name: '日常用品零售業', desc: '零售日常生活用品' }
+            ],
+            food: [
+                { code: 'F501060', name: '餐館業', desc: '經營中西式餐廳、小吃店等' },
+                { code: 'F502050', name: '飲料店業', desc: '經營茶飲、咖啡、果汁等飲料店' },
+                { code: 'F501030', name: '飲酒店業', desc: '提供酒類飲品及餐點' },
+                { code: 'F501040', name: '外燴飲食承包業', desc: '承包各類宴會外燴服務' },
+                { code: 'F501050', name: '餐飲店業', desc: '提供餐飲服務' }
+            ],
+            tech: [
+                { code: 'I301010', name: '資訊軟體服務業', desc: '軟體設計、開發、維護等' },
+                { code: 'I301020', name: '資料處理服務業', desc: '資料處理、分析、管理等' },
+                { code: 'I301030', name: '電子資訊供應服務業', desc: '提供電子資訊內容服務' },
+                { code: 'I401010', name: '一般廣告服務業', desc: '廣告設計、企劃、製作等' },
+                { code: 'J303010', name: '雜誌(期刊)出版業', desc: '雜誌、期刊編輯出版' }
+            ],
+            service: [
+                { code: 'I103060', name: '管理顧問業', desc: '提供企業管理諮詢服務' },
+                { code: 'I401010', name: '一般廣告服務業', desc: '廣告企劃、設計、製作' },
+                { code: 'I501010', name: '產品設計業', desc: '工業設計、產品設計等' },
+                { code: 'J101020', name: '藝文服務業', desc: '藝文活動企劃、執行' },
+                { code: 'J601010', name: '藝術品買賣業', desc: '藝術品展售、拍賣等' }
+            ],
+            trade: [
+                { code: 'F401010', name: '國際貿易業', desc: '從事一般商品進出口貿易' },
+                { code: 'F401021', name: '委託代銷業', desc: '接受委託代為銷售商品' },
+                { code: 'F113010', name: '機械批發業', desc: '批發各類機械設備' },
+                { code: 'F113020', name: '電器批發業', desc: '批發各類電器產品' },
+                { code: 'F114010', name: '汽、機車批發業', desc: '批發汽機車及零配件' }
+            ],
+            manufacturing: [
+                { code: 'C801010', name: '食品製造業', desc: '製造各類食品' },
+                { code: 'CB01010', name: '機械設備製造業', desc: '製造機械設備' },
+                { code: 'CC01010', name: '電機及電子機械器材製造業', desc: '製造電機電子產品' },
+                { code: 'CA02010', name: '食品什貨批發業', desc: '批發食品及什貨' },
+                { code: 'C802050', name: '飲料製造業', desc: '製造各類飲料' }
+            ]
+        };
+        
+        function showCategory(category) {
+            const codeList = document.getElementById('codeList');
+            const codes = businessCodes[category];
+            
+            let html = '<h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">';
+            
+            switch(category) {
+                case 'retail': html += '🛒 零售業營業項目'; break;
+                case 'food': html += '🍽️ 餐飲業營業項目'; break;
+                case 'tech': html += '💻 資訊科技營業項目'; break;
+                case 'service': html += '🤝 服務業營業項目'; break;
+                case 'trade': html += '🌐 貿易業營業項目'; break;
+                case 'manufacturing': html += '🏭 製造業營業項目'; break;
+            }
+            
+            html += '</h2>';
+            
+            codes.forEach(code => {
+                html += `
+                    <div class="code-item">
+                        <div>
+                            <span class="code-number">${code.code}</span>
+                            <strong>${code.name}</strong>
+                        </div>
+                        <div class="code-description">${code.desc}</div>
+                    </div>
+                `;
+            });
+            
+            codeList.innerHTML = html;
+            codeList.classList.add('active');
+            codeList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function searchCode() {
+            const searchInput = document.getElementById('searchInput');
+            const keyword = searchInput.value.trim().toLowerCase();
+            
+            if (!keyword) {
+                alert('請輸入搜尋關鍵字');
+                return;
+            }
+            
+            const codeList = document.getElementById('codeList');
+            let results = [];
+            
+            // 搜尋所有類別
+            Object.keys(businessCodes).forEach(category => {
+                businessCodes[category].forEach(code => {
+                    if (code.code.toLowerCase().includes(keyword) ||
+                        code.name.toLowerCase().includes(keyword) ||
+                        code.desc.toLowerCase().includes(keyword)) {
+                        results.push(code);
+                    }
+                });
+            });
+            
+            if (results.length === 0) {
+                codeList.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: var(--text-light);">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                        <p>找不到相關營業項目</p>
+                        <p>請嘗試其他關鍵字或選擇上方分類</p>
+                    </div>
+                `;
+            } else {
+                let html = `<h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">
+                    🔍 搜尋結果 (共 ${results.length} 筆)
+                </h2>`;
+                
+                results.forEach(code => {
+                    html += `
+                        <div class="code-item">
+                            <div>
+                                <span class="code-number">${code.code}</span>
+                                <strong>${code.name}</strong>
+                            </div>
+                            <div class="code-description">${code.desc}</div>
+                        </div>
+                    `;
+                });
+                
+                codeList.innerHTML = html;
+            }
+            
+            codeList.classList.add('active');
+            codeList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // Enter 鍵觸發搜尋
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchCode();
+            }
+        });
+    </script>
+</body>
+</html>
+

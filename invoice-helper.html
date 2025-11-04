@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="快立登 QuickReg 手開發票小幫手 - 自動計算銷售額與稅額">
+    <title>手開發票小幫手 - 快立登 QuickReg</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .invoice-container {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .invoice-header h1 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .invoice-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .calculator-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--text-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(254, 129, 19, 0.1);
+        }
+        
+        .tax-rate-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .tax-rate-option {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .tax-rate-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(254, 129, 19, 0.05);
+        }
+        
+        .tax-rate-option.active {
+            border-color: var(--primary-color);
+            background: rgba(254, 129, 19, 0.1);
+            font-weight: 600;
+        }
+        
+        .tax-rate-option input[type="radio"] {
+            display: none;
+        }
+        
+        .calculate-button {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary-color), #ff9d3d);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+        
+        .calculate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            color: white;
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .result-card.active {
+            display: block;
+        }
+        
+        .result-card h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .result-row:last-child {
+            border-bottom: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+        
+        .result-label {
+            font-weight: 500;
+        }
+        
+        .result-value {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .tips-section {
+            background: var(--bg-light);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .tips-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tips-list li {
+            padding: 0.8rem 0;
+            color: var(--text-light);
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tips-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .tips-list li i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        .external-link-box {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .external-link-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .external-link-box p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .external-link-box a {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), #ff9d3d);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .external-link-box a:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="快立登 Logo" class="logo-icon" style="width: 40px; height: 40px; object-fit: contain;">
+                <span>快立登 QuickReg</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">返回首頁</a></li>
+                <li><a href="name-check.html" class="nav-link">名稱驗證</a></li>
+                <li><a href="business-code.html" class="nav-link">營業項目</a></li>
+                <li><a href="application.html" class="btn-primary" style="padding: 0.7rem 1.5rem;">立即申請</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Invoice Helper Tool -->
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <h1><i class="fas fa-calculator"></i> 手開發票小幫手</h1>
+            <p>自動計算銷售額與稅額,開發票不再出錯!</p>
+        </div>
+        
+        <!-- Calculator Card -->
+        <div class="calculator-card">
+            <h2 style="color: var(--primary-color); margin-bottom: 2rem; text-align: center;">
+                發票金額計算
+            </h2>
+            
+            <div class="form-group">
+                <label>輸入方式</label>
+                <div class="tax-rate-options">
+                    <label class="tax-rate-option active" onclick="setInputMode('total')">
+                        <input type="radio" name="inputMode" value="total" checked>
+                        <div>含稅總額</div>
+                        <small style="color: var(--text-light);">已含稅金額</small>
+                    </label>
+                    <label class="tax-rate-option" onclick="setInputMode('subtotal')">
+                        <input type="radio" name="inputMode" value="subtotal">
+                        <div>未稅金額</div>
+                        <small style="color: var(--text-light);">不含稅金額</small>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label id="amountLabel">含稅總額 (元)</label>
+                <input type="number" id="amountInput" placeholder="請輸入金額" min="0" step="1">
+            </div>
+            
+            <div class="form-group">
+                <label>稅率</label>
+                <div class="tax-rate-options">
+                    <label class="tax-rate-option active" onclick="setTaxRate(0.05)">
+                        <input type="radio" name="taxRate" value="0.05" checked>
+                        <div>5%</div>
+                        <small style="color: var(--text-light);">一般稅率</small>
+                    </label>
+                    <label class="tax-rate-option" onclick="setTaxRate(0)">
+                        <input type="radio" name="taxRate" value="0">
+                        <div>免稅</div>
+                        <small style="color: var(--text-light);">零稅率</small>
+                    </label>
+                </div>
+            </div>
+            
+            <button class="calculate-button" onclick="calculate()">
+                <i class="fas fa-calculator"></i> 立即計算
+            </button>
+        </div>
+        
+        <!-- Result Card -->
+        <div id="resultCard" class="result-card">
+            <h3><i class="fas fa-receipt"></i> 計算結果</h3>
+            <div class="result-row">
+                <span class="result-label">銷售額 (未稅)</span>
+                <span class="result-value" id="salesAmount">$0</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">營業稅額</span>
+                <span class="result-value" id="taxAmount">$0</span>
+            </div>
+            <div class="result-row">
+                <span class="result-label">總計 (含稅)</span>
+                <span class="result-value" id="totalAmount">$0</span>
+            </div>
+        </div>
+        
+        <!-- Tips Section -->
+        <div class="tips-section">
+            <h3><i class="fas fa-lightbulb"></i> 發票開立小技巧</h3>
+            <ul class="tips-list">
+                <li><i class="fas fa-check-circle"></i> <strong>銷售額:</strong> 未含稅的商品或服務金額,需四捨五入至整數</li>
+                <li><i class="fas fa-check-circle"></i> <strong>營業稅額:</strong> 銷售額 × 稅率(5%),需四捨五入至整數</li>
+                <li><i class="fas fa-check-circle"></i> <strong>總計:</strong> 銷售額 + 營業稅額 = 含稅總額</li>
+                <li><i class="fas fa-check-circle"></i> <strong>免稅:</strong> 外銷、國際運輸等適用零稅率,營業稅額為 $0</li>
+                <li><i class="fas fa-check-circle"></i> <strong>注意:</strong> 手開發票需蓋統一發票專用章及負責人章</li>
+            </ul>
+        </div>
+        
+        <!-- External Link -->
+        <div class="external-link-box">
+            <h3>🚀 升級電子發票,告別手寫時代!</h3>
+            <p>使用電子發票系統,自動計算、即時開立、不怕寫錯!</p>
+            <a href="https://simpany.co/e-invoice" target="_blank">
+                <i class="fas fa-external-link-alt"></i> 了解 Simpany 電子發票服務
+            </a>
+        </div>
+        
+        <!-- CTA -->
+        <div style="text-align: center; margin-top: 3rem;">
+            <p style="color: var(--text-light); margin-bottom: 1rem;">需要公司設立服務?</p>
+            <a href="application.html" class="btn-primary" style="display: inline-block; font-size: 1.1rem; padding: 1rem 2.5rem;">
+                <i class="fas fa-rocket"></i> 立即申請公司設立
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>快立登 QuickReg</h4>
+                <p>專為年輕創業族群打造的公司設立服務</p>
+            </div>
+            <div class="footer-section">
+                <h4>聯絡資訊</h4>
+                <p><i class="fas fa-phone"></i> 04-2241-0032</p>
+                <p><i class="fas fa-envelope"></i> service@quickreg.com</p>
+                <p><i class="fab fa-line"></i> <a href="https://lin.ee/4qvGVfj" target="_blank" style="color: inherit;">LINE諮詢</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 快立登 QuickReg. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Buttons -->
+    <div class="contact-float">
+        <a href="tel:042-241-0032" class="float-btn phone" title="撥打電話">
+            <i class="fas fa-phone"></i>
+        </a>
+        <a href="https://lin.ee/4qvGVfj" target="_blank" class="float-btn line" title="LINE諮詢">
+            <i class="fab fa-line"></i>
+        </a>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        let currentInputMode = 'total'; // 'total' or 'subtotal'
+        let currentTaxRate = 0.05; // 5% or 0
+        
+        function setInputMode(mode) {
+            currentInputMode = mode;
+            const label = document.getElementById('amountLabel');
+            const options = document.querySelectorAll('.tax-rate-option');
+            
+            // 更新標籤
+            if (mode === 'total') {
+                label.textContent = '含稅總額 (元)';
+            } else {
+                label.textContent = '未稅金額 (元)';
+            }
+            
+            // 更新選項樣式
+            options.forEach(opt => opt.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+        
+        function setTaxRate(rate) {
+            currentTaxRate = rate;
+            const options = document.querySelectorAll('.tax-rate-option');
+            options.forEach(opt => opt.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+        
+        function calculate() {
+            const amountInput = document.getElementById('amountInput');
+            const amount = parseFloat(amountInput.value);
+            
+            if (!amount || amount <= 0) {
+                alert('請輸入有效的金額');
+                amountInput.focus();
+                return;
+            }
+            
+            let salesAmount, taxAmount, totalAmount;
+            
+            if (currentInputMode === 'total') {
+                // 從含稅總額計算
+                totalAmount = Math.round(amount);
+                salesAmount = Math.round(totalAmount / (1 + currentTaxRate));
+                taxAmount = totalAmount - salesAmount;
+            } else {
+                // 從未稅金額計算
+                salesAmount = Math.round(amount);
+                taxAmount = Math.round(salesAmount * currentTaxRate);
+                totalAmount = salesAmount + taxAmount;
+            }
+            
+            // 顯示結果
+            document.getElementById('salesAmount').textContent = '$' + salesAmount.toLocaleString();
+            document.getElementById('taxAmount').textContent = '$' + taxAmount.toLocaleString();
+            document.getElementById('totalAmount').textContent = '$' + totalAmount.toLocaleString();
+            
+            const resultCard = document.getElementById('resultCard');
+            resultCard.classList.add('active');
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // Enter 鍵觸發計算
+        document.getElementById('amountInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculate();
+            }
+        });
+    </script>
+</body>
+</html>
+
