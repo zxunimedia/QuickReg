@@ -181,6 +181,7 @@ p {
   gap: 2rem;
   list-style: none;
   align-items: center;
+  flex-wrap: nowrap;
 }
 
 .nav-link {
