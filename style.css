@@ -882,6 +882,8 @@ footer {
 .footer-section a {
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
+  display: block;
+  margin-bottom: 0.5rem;
   transition: var(--transition);
 }
 
