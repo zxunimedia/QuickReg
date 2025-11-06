@@ -183,7 +183,7 @@
             <p><i class="fas fa-info-circle"></i> <strong>注意：</strong>填寫完成後，我們的專業團隊將與您聯繫，協助您完成公司/行號設立的所有流程。</p>
         </div>
 
-        <form class="application-form" id="applicationForm" action="https://formspree.io/f/xanyqjvw" method="POST">
+        <form class="application-form" id="applicationForm" action="https://formspree.io/deliang1101101@gmail.com" method="POST">
             <!-- 基本資訊 -->
             <div class="form-section">
                 <h2><i class="fas fa-building"></i> 基本資訊</h2>
@@ -347,38 +347,12 @@
         const form = document.getElementById('applicationForm');
         const submitBtn = form.querySelector('.submit-btn');
         
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // 禁用提交按鈕
+        form.addEventListener('submit', function(e) {
+            // 禁用提交按鈕防止重複提交
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 提交中...';
-            
-            try {
-                // 使用 Formspree 提交表單
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (response.ok) {
-                    // 成功提交
-                    alert('✅ 感謝您的申請！\n\n我們已收到您的資料，將在 24 小時內透過 Email 或電話與您聯繫。\n\n如有緊急需求，歡迎透過 LINE 諮詢按鈕與我們聯繫。');
-                    form.reset();
-                } else {
-                    // 提交失敗
-                    throw new Error('提交失敗');
-                }
-            } catch (error) {
-                alert('❌ 提交失敗，請稍後再試或透過 LINE 諮詢與我們聯繫。');
-            } finally {
-                // 恢復提交按鈕
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> 立即申請設立';
-            }
+            // 讓表單使用原生 HTML 提交到 Formspree
+            // Formspree 會自動處理並重定向到感謝頁面
         });
         
         // 表單驗證
