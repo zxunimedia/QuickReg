@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css">
     <style>
         .application-container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 2rem auto;
             padding: 0 2rem;
             min-height: calc(100vh - 200px);
@@ -34,201 +34,126 @@
             font-size: 1.1rem;
         }
         
-        .form-embed-container {
+        .application-form {
             background: white;
             border-radius: 20px;
-            padding: 2rem;
+            padding: 3rem;
             box-shadow: var(--shadow-lg);
             margin-bottom: 3rem;
         }
         
-        .google-form-iframe {
-            width: 100%;
-            min-height: 2000px;
-            border: none;
-            border-radius: 10px;
+        .form-section {
+            margin-bottom: 2.5rem;
         }
         
-        .contact-info-box {
-            background: linear-gradient(135deg, var(--primary-color), #ff9d3d);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 2rem;
+        .form-section:last-child {
+            margin-bottom: 0;
         }
         
-        .contact-info-box h3 {
-            margin-bottom: 1rem;
-        }
-        
-        .contact-info-box p {
-            font-size: 1.2rem;
-            margin: 0.5rem 0;
-        }
-        
-        .contact-info-box a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        .contact-info-box a:hover {
-            text-decoration: underline;
-        }
-        
-        /* 名稱預查區塊樣式 */
-        .name-check-section {
-            margin-bottom: 3rem;
-        }
-
-        .name-check-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .name-check-header h2 {
-            color: var(--secondary-color);
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .name-check-header p {
-            color: var(--text-light);
-            font-size: 1.1rem;
-        }
-
-        .name-check-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .name-check-box {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .name-check-box h3 {
+        .form-section h2 {
             color: var(--primary-color);
             font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .name-check-box .description {
-            color: var(--text-light);
             margin-bottom: 1.5rem;
-            font-size: 0.95rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
         }
-
-        .city-select-wrapper {
+        
+        .form-group {
             margin-bottom: 1.5rem;
         }
-
-        .city-select-wrapper label {
+        
+        .form-group label {
             display: block;
             color: var(--text-color);
             font-weight: 600;
             margin-bottom: 0.5rem;
+            font-size: 1rem;
         }
-
-        .city-select {
+        
+        .form-group label .required {
+            color: #ff4444;
+            margin-left: 0.25rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 0.8rem;
+            padding: 0.9rem;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 1rem;
+            font-family: 'Noto Sans TC', sans-serif;
             transition: all 0.3s ease;
         }
-
-        .city-select:focus {
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
         }
-
-        .name-inputs {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
         }
-
-        .name-input {
-            padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
+        
+        .form-group .help-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary-color), #ff9d3d);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
-
-        .name-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
         }
-
-        .naming-tips {
-            background: linear-gradient(135deg, #fff5f0, #fff9f5);
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
             border-left: 4px solid var(--primary-color);
             padding: 1.5rem;
             border-radius: 10px;
+            margin-bottom: 2rem;
         }
-
-        .naming-tips h4 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .naming-tips ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .naming-tips li {
-            color: var(--text-color);
-            margin-bottom: 0.8rem;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .naming-tips li:last-child {
-            margin-bottom: 0;
-        }
-
-        .name-check-note {
-            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .name-check-note p {
+        
+        .info-box p {
             color: var(--text-color);
             margin: 0;
             line-height: 1.6;
         }
-
+        
         @media (max-width: 768px) {
-            .application-header h1 {
-                font-size: 2rem;
+            .application-container {
+                padding: 0 1rem;
             }
             
-            .google-form-iframe {
-                min-height: 2500px;
+            .application-form {
+                padding: 2rem 1.5rem;
             }
-
-            .name-check-container {
-                grid-template-columns: 1fr;
-            }
-
-            .name-check-header h2 {
-                font-size: 1.5rem;
+            
+            .application-header h1 {
+                font-size: 2rem;
             }
         }
     </style>
@@ -251,176 +176,233 @@
     <div class="application-container">
         <div class="application-header">
             <h1><i class="fas fa-rocket"></i> 立即申請公司設立</h1>
-            <p>填寫以下資料,我們將在 24 小時內與您聯繫</p>
+            <p>填寫以下資料，我們將在 24 小時內與您聯繫</p>
         </div>
-        <!-- 名稱預查區塊 -->
-        <div class="name-check-section">
-            <div class="name-check-header">
-                <h2><i class="fas fa-search"></i> 公司/行號名稱預查</h2>
-                <p>請提供 3-5 個候選名稱，我們將協助您送交政府進行正式預查</p>
-            </div>
 
-            <div class="name-check-container">
-                <!-- 公司名稱預查 -->
-                <div class="name-check-box">
-                    <h3><i class="fas fa-building"></i> 公司名稱預查</h3>
-                    <p class="description">請填寫您的候選公司名稱（不含「有限公司」）</p>
-                    
-                    <div class="name-inputs">
-                        <input type="text" placeholder="第 1 個候選名稱（必填）" class="name-input" required>
-                        <input type="text" placeholder="第 2 個候選名稱（必填）" class="name-input" required>
-                        <input type="text" placeholder="第 3 個候選名稱（必填）" class="name-input" required>
-                        <input type="text" placeholder="第 4 個候選名稱（可選）" class="name-input">
-                        <input type="text" placeholder="第 5 個候選名稱（可選）" class="name-input">
-                    </div>
+        <div class="info-box">
+            <p><i class="fas fa-info-circle"></i> <strong>注意：</strong>填寫完成後，我們的專業團隊將與您聯繫，協助您完成公司/行號設立的所有流程。</p>
+        </div>
 
-                    <div class="naming-tips">
-                        <h4><i class="fas fa-lightbulb"></i> 命名小技巧</h4>
-                        <ul>
-                            <li><strong>簡短易記：</strong>建議選擇 2-4 個字的名稱，方便客戶記憶</li>
-                            <li><strong>避免相似：</strong>不要與知名品牌過於相似，避免侵權問題</li>
-                            <li><strong>有意義性：</strong>名稱最好能反映您的業務內容或理念</li>
-                            <li><strong>易於發音：</strong>選擇容易發音的字，有助於口碑傳播</li>
-                            <li><strong>可延展性：</strong>如果非常喜歡某「OO」名稱，可以在「OO」後加上不同的詞，例如「心朋有限公司」、「心朋科技有限公司」等</li>
-                        </ul>
-                    </div>
+        <form class="application-form" id="applicationForm" action="https://formspree.io/f/xanyqjvw" method="POST">
+            <!-- 基本資訊 -->
+            <div class="form-section">
+                <h2><i class="fas fa-building"></i> 基本資訊</h2>
+                
+                <div class="form-group">
+                    <label for="companyName">公司/行號名稱<span class="required">*</span></label>
+                    <input type="text" id="companyName" name="companyName" required placeholder="請輸入您希望的公司或行號名稱">
+                    <div class="help-text">例如：快立登有限公司、快立登商行</div>
                 </div>
-
-                <!-- 行號名稱預查 -->
-                <div class="name-check-box">
-                    <h3><i class="fas fa-store"></i> 行號名稱預查</h3>
-                    <p class="description">請選擇縣市並填寫您的候選行號名稱</p>
-                    
-                    <div class="city-select-wrapper">
-                        <label for="city-select"><i class="fas fa-map-marker-alt"></i> 選擇縣市：</label>
-                        <select id="city-select" class="city-select">
-                            <option value="">請選擇縣市</option>
-                            <option value="臺北市">臺北市</option>
-                            <option value="新北市">新北市</option>
-                            <option value="桃園市">桃園市</option>
-                            <option value="臺中市">臺中市</option>
-                            <option value="臺南市">臺南市</option>
-                            <option value="高雄市">高雄市</option>
-                            <option value="基隆市">基隆市</option>
-                            <option value="新竹市">新竹市</option>
-                            <option value="嘉義市">嘉義市</option>
-                            <option value="新竹縣">新竹縣</option>
-                            <option value="苗栗縣">苗栗縣</option>
-                            <option value="彰化縣">彰化縣</option>
-                            <option value="南投縣">南投縣</option>
-                            <option value="雲林縣">雲林縣</option>
-                            <option value="嘉義縣">嘉義縣</option>
-                            <option value="屏東縣">屏東縣</option>
-                            <option value="宜蘭縣">宜蘭縣</option>
-                            <option value="花蓮縣">花蓮縣</option>
-                            <option value="臺東縣">臺東縣</option>
-                            <option value="澎湖縣">澎湖縣</option>
-                            <option value="金門縣">金門縣</option>
-                            <option value="連江縣">連江縣</option>
-                        </select>
-                    </div>
-
-                    <div class="name-inputs">
-                        <input type="text" placeholder="第 1 個候選名稱（必填）" class="name-input" required>
-                        <input type="text" placeholder="第 2 個候選名稱（必填）" class="name-input" required>
-                        <input type="text" placeholder="第 3 個候選名稱（必填）" class="name-input" required>
-                        <input type="text" placeholder="第 4 個候選名稱（可選）" class="name-input">
-                        <input type="text" placeholder="第 5 個候選名稱（可選）" class="name-input">
-                    </div>
-
-                    <div class="naming-tips">
-                        <h4><i class="fas fa-lightbulb"></i> 命名小技巧</h4>
-                        <ul>
-                            <li><strong>地域性：</strong>行號是地域性的，同一縣市內不能有重複名稱</li>
-                            <li><strong>簡短易記：</strong>建議選擇 2-4 個字的名稱</li>
-                            <li><strong>避免相似：</strong>不要與知名品牌過於相似</li>
-                            <li><strong>有意義性：</strong>名稱最好能反映您的業務內容</li>
-                            <li><strong>易於發音：</strong>選擇容易發音的字</li>
-                        </ul>
-                    </div>
+                
+                <div class="form-group">
+                    <label for="city">設立縣市<span class="required">*</span></label>
+                    <select id="city" name="city" required>
+                        <option value="">請選擇縣市</option>
+                        <option value="臺北市">臺北市</option>
+                        <option value="新北市">新北市</option>
+                        <option value="桃園市">桃園市</option>
+                        <option value="臺中市">臺中市</option>
+                        <option value="臺南市">臺南市</option>
+                        <option value="高雄市">高雄市</option>
+                        <option value="基隆市">基隆市</option>
+                        <option value="新竹市">新竹市</option>
+                        <option value="嘉義市">嘉義市</option>
+                        <option value="新竹縣">新竹縣</option>
+                        <option value="苗栗縣">苗栗縣</option>
+                        <option value="彰化縣">彰化縣</option>
+                        <option value="南投縣">南投縣</option>
+                        <option value="雲林縣">雲林縣</option>
+                        <option value="嘉義縣">嘉義縣</option>
+                        <option value="屏東縣">屏東縣</option>
+                        <option value="宜蘭縣">宜蘭縣</option>
+                        <option value="花蓮縣">花蓮縣</option>
+                        <option value="臺東縣">臺東縣</option>
+                        <option value="澎湖縣">澎湖縣</option>
+                        <option value="金門縣">金門縣</option>
+                        <option value="連江縣">連江縣</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="businessType">主要營業項目<span class="required">*</span></label>
+                    <input type="text" id="businessType" name="businessType" required placeholder="例如：餐飲業、軟體開發、零售業">
+                    <div class="help-text">請簡述您的主要營業內容</div>
                 </div>
             </div>
 
-            <div class="name-check-note">
-                <p><i class="fas fa-info-circle"></i> <strong>注意：</strong>以上名稱將由我們的專業人員協助您送交經濟部/各縣市政府進行正式預查，行號保留 2 個月／公司保留 6 個月。</p>
+            <!-- 負責人資訊 -->
+            <div class="form-section">
+                <h2><i class="fas fa-user"></i> 負責人資訊</h2>
+                
+                <div class="form-group">
+                    <label for="ownerName">負責人姓名<span class="required">*</span></label>
+                    <input type="text" id="ownerName" name="ownerName" required placeholder="請輸入負責人姓名">
+                </div>
+                
+                <div class="form-group">
+                    <label for="idNumber">身分證字號<span class="required">*</span></label>
+                    <input type="text" id="idNumber" name="idNumber" required placeholder="請輸入身分證字號">
+                </div>
             </div>
-        </div>
-        
-        <!-- 設立縣市選擇 -->
-        <div class="city-selection-section" style="margin: 3rem 0; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-            <h2 style="color: white; text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">
-                <i class="fas fa-map-marker-alt"></i> 設立縣市
-            </h2>
-            <div style="max-width: 500px; margin: 0 auto;">
-                <label for="citySelect" style="display: block; color: white; font-size: 1.1rem; margin-bottom: 1rem; font-weight: 500;">
-                    請選擇您的公司/行號設立縣市：
-                </label>
-                <select id="citySelect" style="width: 100%; padding: 1rem; font-size: 1.1rem; border: none; border-radius: 10px; background: white; color: #333; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                    <option value="">請選擇縣市</option>
-                    <option value="臺北市">臺北市</option>
-                    <option value="新北市">新北市</option>
-                    <option value="桃園市">桃園市</option>
-                    <option value="臺中市">臺中市</option>
-                    <option value="臺南市">臺南市</option>
-                    <option value="高雄市">高雄市</option>
-                    <option value="基隆市">基隆市</option>
-                    <option value="新竹市">新竹市</option>
-                    <option value="嘉義市">嘉義市</option>
-                    <option value="新竹縣">新竹縣</option>
-                    <option value="苗栗縣">苗栗縣</option>
-                    <option value="彰化縣">彰化縣</option>
-                    <option value="南投縣">南投縣</option>
-                    <option value="雲林縣">雲林縣</option>
-                    <option value="嘉義縣">嘉義縣</option>
-                    <option value="屏東縣">屏東縣</option>
-                    <option value="宜蘭縣">宜蘭縣</option>
-                    <option value="花蓮縣">花蓮縣</option>
-                    <option value="臺東縣">臺東縣</option>
-                    <option value="澎湖縣">澎湖縣</option>
-                    <option value="金門縣">金門縣</option>
-                    <option value="連江縣">連江縣</option>
-                </select>
-                <p style="color: rgba(255,255,255,0.9); margin-top: 1rem; font-size: 0.95rem;">
-                    <i class="fas fa-info-circle"></i> 請先選擇設立縣市，再填寫下方的申請表單。
-                </p>
-            </div>
-        </div>
 
-        <!-- Google Form Embed -->
-        <div class="form-embed-container">
-            <iframe 
-                src="https://docs.google.com/forms/d/e/1FAIpQLSd-zBIyRhtNbBdjoKgnye3qXTyFuvcK1P7UeiWwgDqWKJea0w/viewform?embedded=true" 
-                class="google-form-iframe"
-                frameborder="0" 
-                marginheight="0" 
-                marginwidth="0">
-                載入中…
-            </iframe>
-        </div>
+            <!-- 聯絡資訊 -->
+            <div class="form-section">
+                <h2><i class="fas fa-phone"></i> 聯絡資訊</h2>
+                
+                <div class="form-group">
+                    <label for="phone">聯絡電話<span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required placeholder="請輸入手機號碼">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">電子郵件地址<span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="example@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="lineId">Line ID</label>
+                    <input type="text" id="lineId" name="lineId" placeholder="方便我們透過 Line 與您聯繫（可選）">
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">聯絡地址<span class="required">*</span></label>
+                    <input type="text" id="address" name="address" required placeholder="請輸入完整地址">
+                </div>
+            </div>
+
+            <!-- 營業資訊 -->
+            <div class="form-section">
+                <h2><i class="fas fa-briefcase"></i> 營業資訊</h2>
+                
+                <div class="form-group">
+                    <label for="businessAddress">營業地址</label>
+                    <input type="text" id="businessAddress" name="businessAddress" placeholder="請輸入營業地址（可選）">
+                    <div class="help-text">如果與聯絡地址相同，可以留空</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="capital">預計資本額（新台幣）</label>
+                    <input type="text" id="capital" name="capital" placeholder="例如：100,000">
+                    <div class="help-text">請填寫預計的資本額（可選）</div>
+                </div>
+            </div>
+
+            <!-- 其他資訊 -->
+            <div class="form-section">
+                <h2><i class="fas fa-comment"></i> 其他資訊</h2>
+                
+                <div class="form-group">
+                    <label for="notes">備註</label>
+                    <textarea id="notes" name="notes" placeholder="如有其他需求或問題，請在此說明"></textarea>
+                </div>
+            </div>
+
+            <!-- 提交按鈕 -->
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-paper-plane"></i> 立即申請設立
+            </button>
+        </form>
     </div>
 
     <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h4>快立登 QuickRight</h4>
-                <p>專為年輕創業族群打造的公司設立服務</p>
+                <h3>快立登 QuickRight</h3>
+                <p>專業的公司設立與登記服務，讓您快速開啟創業之路。</p>
             </div>
-
+            <div class="footer-section">
+                <h3>快速連結</h3>
+                <ul>
+                    <li><a href="index.html">返回首頁</a></li>
+                    <li><a href="name-check.html">名稱驗證</a></li>
+                    <li><a href="business-code.html">營業小幫手</a></li>
+                    <li><a href="invoice-helper.html">發票小幫手</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>服務保證</h3>
+                <ul>
+                    <li>✓ 專業團隊協助</li>
+                    <li>✓ 快速高效處理</li>
+                    <li>✓ 透明化流程</li>
+                    <li>✓ 全程法律保障</li>
+                </ul>
+            </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2024 快立登 QuickRight. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Floating Contact Buttons -->
-    <div class="contact-float">
-        <a href="https://lin.ee/4qvGVfj" target="_blank" class="float-btn line" title="LINE諮詢">
-            <i class="fab fa-line"></i>
-        </a>
-    </div>
+    <!-- LINE 諮詢按鈕 -->
+    <a href="https://line.me/ti/p/你的LINE官方帳號ID" class="line-button" target="_blank" title="LINE諮詢">
+        <i class="fab fa-line"></i>
+    </a>
 
-    <script src="main.js"></script>
+    <script>
+        // 表單提交處理
+        const form = document.getElementById('applicationForm');
+        const submitBtn = form.querySelector('.submit-btn');
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // 禁用提交按鈕
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 提交中...';
+            
+            try {
+                // 使用 Formspree 提交表單
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // 成功提交
+                    alert('✅ 感謝您的申請！\n\n我們已收到您的資料，將在 24 小時內透過 Email 或電話與您聯繫。\n\n如有緊急需求，歡迎透過 LINE 諮詢按鈕與我們聯繫。');
+                    form.reset();
+                } else {
+                    // 提交失敗
+                    throw new Error('提交失敗');
+                }
+            } catch (error) {
+                alert('❌ 提交失敗，請稍後再試或透過 LINE 諮詢與我們聯繫。');
+            } finally {
+                // 恢復提交按鈕
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> 立即申請設立';
+            }
+        });
+        
+        // 表單驗證
+        const idNumberInput = document.getElementById('idNumber');
+        idNumberInput.addEventListener('blur', function() {
+            const value = this.value.toUpperCase();
+            const pattern = /^[A-Z][12]\d{8}$/;
+            
+            if (value && !pattern.test(value)) {
+                this.setCustomValidity('請輸入正確的身分證字號格式');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+        
+        // 電話號碼驗證
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('blur', function() {
+            const value = this.value.replace(/\D/g, '');
+            
+            if (value && value.length !== 10) {
+                this.setCustomValidity('請輸入正確的手機號碼（10碼）');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    </script>
 </body>
 </html>
-

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="快立登 QuickRight - 立即申請公司設立服務">
+    <title>立即申請 - 快立登 QuickRight</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .application-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .application-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+        
+        .application-header h1 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .application-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .form-embed-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 3rem;
+        }
+        
+        .google-form-iframe {
+            width: 100%;
+            min-height: 2000px;
+            border: none;
+            border-radius: 10px;
+        }
+        
+        .contact-info-box {
+            background: linear-gradient(135deg, var(--primary-color), #ff9d3d);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-info-box h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info-box p {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+        
+        .contact-info-box a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .contact-info-box a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 名稱預查區塊樣式 */
+        .name-check-section {
+            margin-bottom: 3rem;
+        }
+
+        .name-check-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .name-check-header h2 {
+            color: var(--secondary-color);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .name-check-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .name-check-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .name-check-box {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .name-check-box h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .name-check-box .description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .city-select-wrapper {
+            margin-bottom: 1.5rem;
+        }
+
+        .city-select-wrapper label {
+            display: block;
+            color: var(--text-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .city-select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .city-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .name-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .name-input {
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .naming-tips {
+            background: linear-gradient(135deg, #fff5f0, #fff9f5);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .naming-tips h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .naming-tips ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .naming-tips li {
+            color: var(--text-color);
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .naming-tips li:last-child {
+            margin-bottom: 0;
+        }
+
+        .name-check-note {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .name-check-note p {
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .application-header h1 {
+                font-size: 2rem;
+            }
+            
+            .google-form-iframe {
+                min-height: 2500px;
+            }
+
+            .name-check-container {
+                grid-template-columns: 1fr;
+            }
+
+            .name-check-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="快立登 Logo" style="width: 40px; height: 40px; object-fit: contain; margin-right: 0.5rem;">
+                <span>快立登 QuickRight</span>
+            </a>
+            <div>
+                <a href="index.html" class="nav-link">返回首頁</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Application Form -->
+    <div class="application-container">
+        <div class="application-header">
+            <h1><i class="fas fa-rocket"></i> 立即申請公司設立</h1>
+            <p>填寫以下資料,我們將在 24 小時內與您聯繫</p>
+        </div>
+        <!-- 名稱預查區塊 -->
+        <div class="name-check-section">
+            <div class="name-check-header">
+                <h2><i class="fas fa-search"></i> 公司/行號名稱預查</h2>
+                <p>請提供 3-5 個候選名稱，我們將協助您送交政府進行正式預查</p>
+            </div>
+
+            <div class="name-check-container">
+                <!-- 公司名稱預查 -->
+                <div class="name-check-box">
+                    <h3><i class="fas fa-building"></i> 公司名稱預查</h3>
+                    <p class="description">請填寫您的候選公司名稱（不含「有限公司」）</p>
+                    
+                    <div class="name-inputs">
+                        <input type="text" placeholder="第 1 個候選名稱（必填）" class="name-input" required>
+                        <input type="text" placeholder="第 2 個候選名稱（必填）" class="name-input" required>
+                        <input type="text" placeholder="第 3 個候選名稱（必填）" class="name-input" required>
+                        <input type="text" placeholder="第 4 個候選名稱（可選）" class="name-input">
+                        <input type="text" placeholder="第 5 個候選名稱（可選）" class="name-input">
+                    </div>
+
+                    <div class="naming-tips">
+                        <h4><i class="fas fa-lightbulb"></i> 命名小技巧</h4>
+                        <ul>
+                            <li><strong>簡短易記：</strong>建議選擇 2-4 個字的名稱，方便客戶記憶</li>
+                            <li><strong>避免相似：</strong>不要與知名品牌過於相似，避免侵權問題</li>
+                            <li><strong>有意義性：</strong>名稱最好能反映您的業務內容或理念</li>
+                            <li><strong>易於發音：</strong>選擇容易發音的字，有助於口碑傳播</li>
+                            <li><strong>可延展性：</strong>如果非常喜歡某「OO」名稱，可以在「OO」後加上不同的詞，例如「心朋有限公司」、「心朋科技有限公司」等</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 行號名稱預查 -->
+                <div class="name-check-box">
+                    <h3><i class="fas fa-store"></i> 行號名稱預查</h3>
+                    <p class="description">請選擇縣市並填寫您的候選行號名稱</p>
+                    
+                    <div class="city-select-wrapper">
+                        <label for="city-select"><i class="fas fa-map-marker-alt"></i> 選擇縣市：</label>
+                        <select id="city-select" class="city-select">
+                            <option value="">請選擇縣市</option>
+                            <option value="臺北市">臺北市</option>
+                            <option value="新北市">新北市</option>
+                            <option value="桃園市">桃園市</option>
+                            <option value="臺中市">臺中市</option>
+                            <option value="臺南市">臺南市</option>
+                            <option value="高雄市">高雄市</option>
+                            <option value="基隆市">基隆市</option>
+                            <option value="新竹市">新竹市</option>
+                            <option value="嘉義市">嘉義市</option>
+                            <option value="新竹縣">新竹縣</option>
+                            <option value="苗栗縣">苗栗縣</option>
+                            <option value="彰化縣">彰化縣</option>
+                            <option value="南投縣">南投縣</option>
+                            <option value="雲林縣">雲林縣</option>
+                            <option value="嘉義縣">嘉義縣</option>
+                            <option value="屏東縣">屏東縣</option>
+                            <option value="宜蘭縣">宜蘭縣</option>
+                            <option value="花蓮縣">花蓮縣</option>
+                            <option value="臺東縣">臺東縣</option>
+                            <option value="澎湖縣">澎湖縣</option>
+                            <option value="金門縣">金門縣</option>
+                            <option value="連江縣">連江縣</option>
+                        </select>
+                    </div>
+
+                    <div class="name-inputs">
+                        <input type="text" placeholder="第 1 個候選名稱（必填）" class="name-input" required>
+                        <input type="text" placeholder="第 2 個候選名稱（必填）" class="name-input" required>
+                        <input type="text" placeholder="第 3 個候選名稱（必填）" class="name-input" required>
+                        <input type="text" placeholder="第 4 個候選名稱（可選）" class="name-input">
+                        <input type="text" placeholder="第 5 個候選名稱（可選）" class="name-input">
+                    </div>
+
+                    <div class="naming-tips">
+                        <h4><i class="fas fa-lightbulb"></i> 命名小技巧</h4>
+                        <ul>
+                            <li><strong>地域性：</strong>行號是地域性的，同一縣市內不能有重複名稱</li>
+                            <li><strong>簡短易記：</strong>建議選擇 2-4 個字的名稱</li>
+                            <li><strong>避免相似：</strong>不要與知名品牌過於相似</li>
+                            <li><strong>有意義性：</strong>名稱最好能反映您的業務內容</li>
+                            <li><strong>易於發音：</strong>選擇容易發音的字</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="name-check-note">
+                <p><i class="fas fa-info-circle"></i> <strong>注意：</strong>以上名稱將由我們的專業人員協助您送交經濟部/各縣市政府進行正式預查，行號保留 2 個月／公司保留 6 個月。</p>
+            </div>
+        </div>
+        
+        <!-- 設立縣市選擇 -->
+        <div class="city-selection-section" style="margin: 3rem 0; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <h2 style="color: white; text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">
+                <i class="fas fa-map-marker-alt"></i> 設立縣市
+            </h2>
+            <div style="max-width: 500px; margin: 0 auto;">
+                <label for="citySelect" style="display: block; color: white; font-size: 1.1rem; margin-bottom: 1rem; font-weight: 500;">
+                    請選擇您的公司/行號設立縣市：
+                </label>
+                <select id="citySelect" style="width: 100%; padding: 1rem; font-size: 1.1rem; border: none; border-radius: 10px; background: white; color: #333; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <option value="">請選擇縣市</option>
+                    <option value="臺北市">臺北市</option>
+                    <option value="新北市">新北市</option>
+                    <option value="桃園市">桃園市</option>
+                    <option value="臺中市">臺中市</option>
+                    <option value="臺南市">臺南市</option>
+                    <option value="高雄市">高雄市</option>
+                    <option value="基隆市">基隆市</option>
+                    <option value="新竹市">新竹市</option>
+                    <option value="嘉義市">嘉義市</option>
+                    <option value="新竹縣">新竹縣</option>
+                    <option value="苗栗縣">苗栗縣</option>
+                    <option value="彰化縣">彰化縣</option>
+                    <option value="南投縣">南投縣</option>
+                    <option value="雲林縣">雲林縣</option>
+                    <option value="嘉義縣">嘉義縣</option>
+                    <option value="屏東縣">屏東縣</option>
+                    <option value="宜蘭縣">宜蘭縣</option>
+                    <option value="花蓮縣">花蓮縣</option>
+                    <option value="臺東縣">臺東縣</option>
+                    <option value="澎湖縣">澎湖縣</option>
+                    <option value="金門縣">金門縣</option>
+                    <option value="連江縣">連江縣</option>
+                </select>
+                <p style="color: rgba(255,255,255,0.9); margin-top: 1rem; font-size: 0.95rem;">
+                    <i class="fas fa-info-circle"></i> 請先選擇設立縣市，再填寫下方的申請表單。
+                </p>
+            </div>
+        </div>
+
+        <!-- Google Form Embed -->
+        <div class="form-embed-container">
+            <iframe 
+                src="https://docs.google.com/forms/d/e/1FAIpQLSd-zBIyRhtNbBdjoKgnye3qXTyFuvcK1P7UeiWwgDqWKJea0w/viewform?embedded=true" 
+                class="google-form-iframe"
+                frameborder="0" 
+                marginheight="0" 
+                marginwidth="0">
+                載入中…
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>快立登 QuickRight</h4>
+                <p>專為年輕創業族群打造的公司設立服務</p>
+            </div>
+
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 快立登 QuickRight. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Buttons -->
+    <div class="contact-float">
+        <a href="https://lin.ee/4qvGVfj" target="_blank" class="float-btn line" title="LINE諮詢">
+            <i class="fab fa-line"></i>
+        </a>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
+
